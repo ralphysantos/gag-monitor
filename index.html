@@ -87,10 +87,18 @@ function renderCard(groupData) {
 
 
 async function fetchGroupHTML() {
-  const response = await fetch(SOURCE_URL);
-  const text = await response.text();
+const response = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url: SOURCE_URL }) // your target URL
+  });
+
+  const data = await response.json();
+
+  // Parse the returned HTML string from `data.title` or change backend to return full HTML
   const parser = new DOMParser();
-  const doc = parser.parseFromString(text, 'text/html');
+  const doc = parser.parseFromString(data.html, 'text/html'); // change if your backend sends raw HTML
+
   return doc.querySelectorAll('.grid > div');
 }
 
