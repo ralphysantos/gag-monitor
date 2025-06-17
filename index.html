@@ -87,7 +87,7 @@ function renderCard(groupData) {
 
 
 async function fetchGroupHTML() {
-const response = await fetch(PROXY_URL, {
+const response = await fetch(SOURCE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url: SOURCE_URL }) // your target URL
