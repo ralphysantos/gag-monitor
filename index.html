@@ -88,31 +88,26 @@ function renderCard(groupData) {
 
 
 async function fetchGroupHTML() {
-  try {
-    const response = await fetch('https://vulcanvalues.com/grow-a-garden/stock');
+    try {
+    const response = await fetch(SOURCE_URL, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'User -Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+      },
+      body: JSON.stringify({ url: 'https://vulcanvalues.com/grow-a-garden/stock' })
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const html = await response.text(); // Get the response as text
+    const data = await response.json();
     const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const elements = doc.querySelectorAll('.grid > div'); // Adjust the selector as needed
-    return elements; // Return the NodeList of elements
+    const doc = parser.parseFromString(data.html, 'text/html');
+    return doc.querySelectorAll('.grid > div');
   } catch (error) {
     console.error('Error fetching group HTML:', error);
     return []; // Return an empty array or handle the error as needed
   }
-  // const response = await fetch(SOURCE_URL, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ url: 'https://vulcanvalues.com/grow-a-garden/stock' })
-  // });
-
-  // const data = await response.json();
-
-  // const parser = new DOMParser();
-  // const doc = parser.parseFromString(data.html, 'text/html');
-  // return doc.querySelectorAll('.grid > div');
 }
 
 async function refreshSingleGroup(countdownId) {
