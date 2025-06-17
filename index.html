@@ -87,18 +87,16 @@ function renderCard(groupData) {
 
 
 async function fetchGroupHTML() {
-const response = await fetch(SOURCE_URL, {
+  const response = await fetch(SOURCE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url: 'https://vulcanvalues.com/grow-a-garden/stock' }) // your target URL
+    body: JSON.stringify({ url: 'https://vulcanvalues.com/grow-a-garden/stock' })
   });
 
   const data = await response.json();
 
-  // Parse the returned HTML string from `data.title` or change backend to return full HTML
   const parser = new DOMParser();
-  const doc = parser.parseFromString(data.html, 'text/html'); // change if your backend sends raw HTML
-
+  const doc = parser.parseFromString(data.html, 'text/html');
   return doc.querySelectorAll('.grid > div');
 }
 
