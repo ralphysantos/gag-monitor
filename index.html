@@ -112,6 +112,7 @@ async function fetchGroupHTML() {
 
 async function refreshSingleGroup(countdownId) {
   const groups = await fetchGroupHTML();
+  console.log(groups);
   const matchedDiv = Array.from(groups).find(div => {
     const span = div.querySelector(`span#${countdownId}`);
     return !!span;
